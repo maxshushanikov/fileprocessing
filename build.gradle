@@ -1,0 +1,37 @@
+plugins {
+    id "java"
+    id "application"
+    id "java-library"
+}
+
+group = 'org.fileprocessing'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = "org.fileprocessing.App"
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "org.fileprocessing.App"
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
